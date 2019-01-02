@@ -1,0 +1,106 @@
+<div class="container-fluid">
+
+  <div class="card">
+    <div class="card-header">Services</div>
+    <div class="card-body">
+      <ul>
+        <li *ngFor="let item of dataFromSever">
+          {{ item.name }}, {{ item.phone }}, {{ item.category }}, {{ item.id }}
+        </li>
+      </ul>
+
+      {{dataAsync$ | async | json}}
+    </div>
+  </div>
+
+  <div class="card">
+
+    <div class="card-header">COMPONENTS</div>
+    <div class="card-body">
+
+      <div class="card card-body bg-warnign">
+        <div>
+          <app-img-thumb 
+            (clickEvent2)="changeImg($event)"
+            [extUrl]="url"
+            *ngFor="let url of images">
+          </app-img-thumb>
+          
+        </div>
+        <div>
+          <img src="{{bigImg}}" alt="" style="width:50%;height:50%;">
+        </div>
+      </div>
+
+      <div class="bg-info">Phone: {{selectedPhone}}</div>
+      <app-contact-card 
+        (clickEvent)="changePhone($event)"
+        [data]="contact" 
+        [index]="idx"
+        *ngFor="let contact of contacts; let idx = index;">
+        {{contact.name}}
+      </app-contact-card>
+
+    </div>
+  </div>
+
+  <div class="card m-2">
+    <div class="card-header">Directives</div>
+    <div class="card-body">
+
+      My name is {{myName}}
+
+      <br>
+      <input type="text" [value]="myName" #name (input)="changeName(name.value)">
+
+      <input type="text" [(ngModel)]="myName">
+
+      <input type="text" [ngModel]="myName">
+
+      <input type="text" ngModel="my name is Darek">
+
+      <hr>
+
+      <input type="checkbox" [checked]="access" (change)="toggleAccess($event.target.checked)">
+
+      <input type="checkbox" [checked]="access" #x (change)="toggleAccess(x.checked)">
+
+      <input type="checkbox" [(ngModel)]="access">
+
+      <div *ngIf="access" class="bg-success">access ok</div>
+      <div *ngIf="!access" class="bg-danger">access not ok</div>
+
+      <h4>Contacts</h4>
+      <ul>
+        <li (click)="showContactPhone(contact.phone)" *ngFor="let contact of contacts">
+          {{contact.name}}
+        </li>
+      </ul>
+
+      <ul>
+        <li 
+          *ngFor="let item of list; let idx = index; let o = odd;" 
+          [ngClass]="{'badge-success': o, 'badge-danger': !o}"
+          class="badge">
+          {{idx+1}} - {{item}} - {{o}}
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="card m-2">
+    <div class="card-header">Pipe & interpolation</div>
+    <div class="card-body">
+      {{myName | uppercase}}
+      <br>
+      {{today | date: "dd.MMM.yyyy # h:m:s" | uppercase}}
+      <br>
+      {{today/1000/60/60/24/365 + 1970}}
+      <br>
+      {{myName | greeting:'de'}}
+      <br>
+      {{myName | greeting:'pl'}}
+      <br>
+      {{myName | greeting:'ru'}}
+    </div>
+  </div>
+</div>
